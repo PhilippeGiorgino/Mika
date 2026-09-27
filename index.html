@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Mika">
+<meta name="mobile-web-app-capable" content="yes">
+<title>Mika · voeding vandaag</title>
+<style>
+:root{ color-scheme: light; --ink:#14181f; --mut:#5b636d; --faint:#9aa1aa; --line:#e6e9ed;
+  --bg:#f4f6f8; --card:#ffffff; --nat:#3d6e9e; --natbg:#eef4f9; --droog:#b07a3c; --droogbg:#faf3e7;
+  --acc:#7a5ca8; --accbg:#f1ecf7; --ok:#2f7d4f; --okbg:#edf6f0; --over:#b0524b; --overbg:#fbf1ef; }
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;}
+.wrap{max-width:520px;margin:0 auto;padding:16px 14px 40px;}
+header{display:flex;align-items:baseline;justify-content:space-between;margin:6px 2px 14px;}
+h1{font-size:26px;margin:0;font-weight:800;letter-spacing:-.3px;}
+.date{font-size:13px;color:var(--mut);text-transform:capitalize;text-align:right;line-height:1.3;}
+.card{background:var(--card);border-radius:20px;padding:18px;margin-bottom:14px;
+  box-shadow:0 1px 3px rgba(20,24,31,.06),0 1px 1px rgba(20,24,31,.04);}
+.hero{border-top:4px solid var(--acc);}
+.hero.state-ok{border-top-color:var(--ok);} .hero.state-over{border-top-color:var(--over);}
+.card.nat{border-top:4px solid var(--nat);} .card.droog{border-top:4px solid var(--droog);}
+.chead{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;}
+.ctitle{font-size:15px;font-weight:700;} .nat .ctitle{color:var(--nat);} .droog .ctitle{color:var(--droog);}
+.hero .ctitle{color:var(--acc);}
+.small{font-size:13px;color:var(--mut);}
+.big{font-size:46px;font-weight:800;line-height:1;margin:2px 0 2px;letter-spacing:-1px;}
+.big .u{font-size:20px;font-weight:700;color:var(--mut);margin-left:3px;}
+.hero.state-ok .big, .nat.state-ok .big, .droog.state-ok .big{color:var(--ok);}
+.hero.state-over .big{color:var(--over);}
+.lbl{font-size:13px;color:var(--mut);}
+.bar{height:12px;border-radius:8px;background:var(--line);overflow:hidden;margin:12px 0 4px;}
+.bar > i{display:block;height:100%;border-radius:8px;background:var(--acc);transition:width .25s ease;}
+.state-ok .bar > i{background:var(--ok);} .state-over .bar > i{background:var(--over);}
+.sub{display:flex;justify-content:space-between;font-size:13px;color:var(--mut);margin-top:2px;}
+.given{font-size:13px;color:var(--mut);margin-top:10px;}
+.given b{color:var(--ink);font-weight:700;}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;}
+.chip{flex:1 1 28%;min-width:0;border:none;border-radius:12px;padding:14px 4px;font-size:17px;font-weight:700;
+  cursor:pointer;color:#fff;}
+.nat .chip{background:var(--nat);} .droog .chip{background:var(--droog);}
+.chip:active{filter:brightness(.9);}
+.customrow{display:flex;gap:8px;margin-top:8px;}
+.customrow input{flex:1;border:1.5px solid var(--line);border-radius:12px;padding:12px 14px;font-size:17px;
+  background:#fbfcfd;color:var(--ink);min-width:0;}
+.customrow button{border:none;border-radius:12px;padding:0 18px;font-size:17px;font-weight:700;color:#fff;cursor:pointer;}
+.nat .customrow button{background:var(--nat);} .droog .customrow button{background:var(--droog);}
+.hint{font-size:12.5px;color:var(--faint);margin:2px 2px 0;line-height:1.45;}
+.log{background:var(--card);border-radius:20px;padding:10px 14px 6px;box-shadow:0 1px 3px rgba(20,24,31,.06);}
+.log h2{font-size:13px;text-transform:uppercase;letter-spacing:.5px;color:var(--faint);margin:8px 2px 6px;}
+.logrow{display:flex;align-items:center;justify-content:space-between;padding:9px 2px;border-top:1px solid var(--line);}
+.logrow:first-of-type{border-top:none;}
+.tag{display:inline-block;font-size:12px;font-weight:700;padding:2px 8px;border-radius:20px;}
+.tag.nat{background:var(--natbg);color:var(--nat);} .tag.droog{background:var(--droogbg);color:var(--droog);}
+.logrow .t{font-size:13px;color:var(--mut);width:44px;}
+.logrow .g{font-weight:700;font-size:15px;flex:1;text-align:right;padding-right:6px;}
+.logrow .kc{font-size:12px;color:var(--faint);width:54px;text-align:right;padding-right:10px;}
+.del{border:none;background:none;color:var(--faint);font-size:20px;line-height:1;cursor:pointer;padding:2px 6px;}
+.empty{color:var(--faint);font-size:14px;padding:10px 2px 14px;text-align:center;}
+.actions{display:flex;gap:10px;margin-top:16px;}
+.btn{flex:1;border:1.5px solid var(--line);background:var(--card);border-radius:14px;padding:14px;font-size:15px;
+  font-weight:700;color:var(--ink);cursor:pointer;}
+.btn.reset{color:var(--over);border-color:#f0d7d3;}
+.settings{margin-top:14px;font-size:14px;}
+.settings summary{color:var(--mut);cursor:pointer;padding:8px 2px;}
+.setrow{display:flex;align-items:center;justify-content:space-between;padding:8px 2px;}
+.setrow input{width:90px;border:1.5px solid var(--line);border-radius:10px;padding:8px 10px;font-size:15px;text-align:right;background:#fbfcfd;color:var(--ink);}
+.tip{text-align:center;font-size:12px;color:var(--faint);margin-top:18px;line-height:1.5;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Mika</h1>
+    <div class="date" id="date"></div>
+  </header>
+
+  <div class="card hero" id="hero">
+    <div class="chead"><span class="ctitle">Dagdoel</span><span class="small" id="target-lbl"></span></div>
+    <div class="big" id="rem-kcal">0<span class="u">kcal</span></div>
+    <div class="lbl" id="rem-kcal-lbl">nog te geven</div>
+    <div class="bar"><i id="bar-kcal"></i></div>
+    <div class="sub"><span id="given-kcal">0 kcal gegeven</span><span id="pct-kcal">0%</span></div>
+  </div>
+
+  <div class="hint">Je kan het doel vullen met natvoer, droogvoer of een mix. Hieronder zie je per type hoeveel gram je nog kan geven als je de rest volledig met dat type zou doen. Elke portie telt af van beide.</div>
+
+  <div class="card nat" id="card-nat" style="margin-top:14px">
+    <div class="chead"><span class="ctitle">Natvoer</span></div>
+    <div class="big" id="room-nat">0<span class="u">g</span></div>
+    <div class="lbl">kan je nog geven &middot; als de rest volledig nat is</div>
+    <div class="given" id="given-nat">al gegeven: <b>0 g</b></div>
+    <div class="chips">
+      <button class="chip" data-t="nat" data-g="25">+25</button>
+      <button class="chip" data-t="nat" data-g="30">+30</button>
+      <button class="chip" data-t="nat" data-g="35">+35</button>
+      <button class="chip" data-t="nat" data-g="40">+40</button>
+      <button class="chip" data-t="nat" data-g="45">+45</button>
+      <button class="chip" data-t="nat" data-g="50">+50</button>
+    </div>
+    <div class="customrow">
+      <input type="number" inputmode="numeric" pattern="[0-9]*" id="in-nat" placeholder="andere hoeveelheid (g)">
+      <button data-t="nat" data-custom="1">Toevoegen</button>
+    </div>
+  </div>
+
+  <div class="card droog" id="card-droog">
+    <div class="chead"><span class="ctitle">Droogvoer</span></div>
+    <div class="big" id="room-droog">0<span class="u">g</span></div>
+    <div class="lbl">kan je nog geven &middot; als de rest volledig droog is</div>
+    <div class="given" id="given-droog">al gegeven: <b>0 g</b></div>
+    <div class="chips">
+      <button class="chip" data-t="droog" data-g="10">+10</button>
+      <button class="chip" data-t="droog" data-g="15">+15</button>
+      <button class="chip" data-t="droog" data-g="20">+20</button>
+    </div>
+    <div class="customrow">
+      <input type="number" inputmode="numeric" pattern="[0-9]*" id="in-droog" placeholder="andere hoeveelheid (g)">
+      <button data-t="droog" data-custom="1">Toevoegen</button>
+    </div>
+  </div>
+
+  <div class="log">
+    <h2>Vandaag gegeven</h2>
+    <div id="loglist"></div>
+  </div>
+
+  <div class="actions">
+    <button class="btn reset" id="btn-reset">Reset dag</button>
+  </div>
+
+  <details class="settings">
+    <summary>Doel en waarden aanpassen</summary>
+    <div class="setrow"><span>Dagdoel (kcal)</span><input type="number" id="set-kcal"></div>
+    <div class="setrow"><span>kcal per gram natvoer</span><input type="number" step="0.01" id="set-kcnat"></div>
+    <div class="setrow"><span>kcal per gram droogvoer</span><input type="number" step="0.01" id="set-kcdroog"></div>
+    <div class="setrow small" style="color:var(--faint)">Standaard: 255 kcal &middot; nat 0,95 &middot; droog 3,99</div>
+  </details>
+
+  <div class="tip">Zet op je beginscherm: deel-icoon &rarr; "Zet op beginscherm".<br>De teller reset vanzelf bij een nieuwe dag.</div>
+</div>
+
+<script>
+(function(){
+  var KEY='mika_voeding_v1';
+  function today(){var d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+  function nowHM(){var d=new Date();return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');}
+
+  function load(){
+    var s=null;
+    try{ s=JSON.parse(localStorage.getItem(KEY)); }catch(e){}
+    if(!s||typeof s!=='object') s={};
+    if(!Array.isArray(s.entries)) s.entries=[];
+    if(!(s.kcalTarget>0)) s.kcalTarget=255;
+    if(!s.kc||!(s.kc.nat>0)||!(s.kc.droog>0)) s.kc={nat:0.95,droog:3.99};
+    if(s.date!==today()){ s.date=today(); s.entries=[]; }
+    return s;
+  }
+  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+  var state=load(); save();
+
+  function totals(){var t={nat:0,droog:0};state.entries.forEach(function(e){t[e.t]+=e.g;});return t;}
+  function fmtDate(){
+    try{ return new Date().toLocaleDateString('nl-BE',{weekday:'long',day:'numeric',month:'long',year:'numeric'}); }
+    catch(e){ return today(); }
+  }
+
+  function render(){
+    document.getElementById('date').textContent=fmtDate();
+    var t=totals();
+    var kc=state.kc, tar=state.kcalTarget;
+    var given=t.nat*kc.nat + t.droog*kc.droog;
+    var rem=tar-given;
+    var over=rem<-0.5, done=rem<=0.5;
+
+    // hero (kcal)
+    var hero=document.getElementById('hero');
+    hero.classList.toggle('state-ok', done && !over);
+    hero.classList.toggle('state-over', over);
+    var rk=document.getElementById('rem-kcal'), rkl=document.getElementById('rem-kcal-lbl');
+    if(over){ rk.innerHTML=Math.round(-rem)+'<span class="u">kcal</span>'; rkl.textContent='te veel gegeven'; }
+    else if(done){ rk.innerHTML='doel bereikt'; rk.style.fontSize='38px'; rkl.textContent=''; }
+    else { rk.innerHTML=Math.round(rem)+'<span class="u">kcal</span>'; rk.style.fontSize='46px'; rkl.textContent='nog te geven'; }
+    document.getElementById('target-lbl').textContent='doel '+Math.round(tar)+' kcal';
+    document.getElementById('given-kcal').textContent=Math.round(given)+' kcal gegeven';
+    var pct=tar>0?Math.round(given/tar*100):0;
+    document.getElementById('pct-kcal').textContent=pct+'%';
+    document.getElementById('bar-kcal').style.width=Math.min(100,pct)+'%';
+
+    // per type: grams still possible to fill the REMAINING kcal with that type only
+    var roomNat = rem>0 ? Math.round(rem/kc.nat) : 0;
+    var roomDroog = rem>0 ? Math.round(rem/kc.droog) : 0;
+    setType('nat', t.nat, roomNat, done && !over);
+    setType('droog', t.droog, roomDroog, done && !over);
+  }
+
+  function setType(type, g, room, done){
+    var card=document.getElementById('card-'+type);
+    card.classList.toggle('state-ok', done);
+    var big=document.getElementById('room-'+type);
+    if(done){ big.innerHTML='0<span class="u">g</span>'; }
+    else { big.innerHTML=room+'<span class="u">g</span>'; }
+    var kcal=Math.round(g*state.kc[type]);
+    document.getElementById('given-'+type).innerHTML='al gegeven: <b>'+g+' g</b> &middot; '+kcal+' kcal';
+  }
+
+  function renderLog(){
+    var list=document.getElementById('loglist');
+    if(!state.entries.length){ list.innerHTML='<div class="empty">Nog niets gegeven vandaag.</div>'; return; }
+    var html='';
+    for(var i=state.entries.length-1;i>=0;i--){
+      var e=state.entries[i], k=Math.round(e.g*state.kc[e.t]);
+      html+='<div class="logrow"><span class="t">'+(e.time||'')+'</span>'+
+            '<span class="tag '+e.t+'">'+(e.t==='nat'?'Nat':'Droog')+'</span>'+
+            '<span class="g">'+e.g+' g</span>'+
+            '<span class="kc">'+k+' kcal</span>'+
+            '<button class="del" data-i="'+i+'">&times;</button></div>';
+    }
+    list.innerHTML=html;
+  }
+
+  function all(){ render(); renderLog();
+    document.getElementById('set-kcal').value=state.kcalTarget;
+    document.getElementById('set-kcnat').value=state.kc.nat;
+    document.getElementById('set-kcdroog').value=state.kc.droog;
+  }
+
+  function add(type,g){
+    g=Math.round(g);
+    if(!g||g<=0||g>2000) return;
+    state.entries.push({t:type,g:g,time:nowHM()});
+    save(); all();
+  }
+
+  document.querySelectorAll('.chip').forEach(function(b){
+    b.addEventListener('click',function(){ add(b.dataset.t, parseInt(b.dataset.g,10)); });
+  });
+  document.querySelectorAll('.customrow button').forEach(function(b){
+    b.addEventListener('click',function(){
+      var inp=document.getElementById('in-'+b.dataset.t);
+      add(b.dataset.t, parseFloat(inp.value)); inp.value='';
+    });
+  });
+  document.getElementById('loglist').addEventListener('click',function(ev){
+    var d=ev.target.closest('.del'); if(!d) return;
+    state.entries.splice(parseInt(d.dataset.i,10),1); save(); all();
+  });
+  document.getElementById('btn-reset').addEventListener('click',function(){
+    if(confirm('De teller van vandaag wissen en opnieuw beginnen?')){ state.entries=[]; save(); all(); }
+  });
+  document.getElementById('set-kcal').addEventListener('change',function(){
+    var v=parseFloat(this.value); if(v>0&&v<5000){ state.kcalTarget=v; save(); all(); }
+  });
+  document.getElementById('set-kcnat').addEventListener('change',function(){
+    var v=parseFloat(this.value); if(v>0&&v<10){ state.kc.nat=v; save(); all(); }
+  });
+  document.getElementById('set-kcdroog').addEventListener('change',function(){
+    var v=parseFloat(this.value); if(v>0&&v<10){ state.kc.droog=v; save(); all(); }
+  });
+  setInterval(function(){ if(state.date!==today()){ state=load(); save(); all(); } }, 60000);
+
+  all();
+})();
+</script>
+</body>
+</html>
