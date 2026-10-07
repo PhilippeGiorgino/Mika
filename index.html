@@ -6,16 +6,17 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Mika">
 <meta name="mobile-web-app-capable" content="yes">
-<title>Mika · voeding vandaag</title>
+<title>Mika &amp; Trixie · voeding</title>
 <style>
 :root{ color-scheme: light; --ink:#14181f; --mut:#5b636d; --faint:#9aa1aa; --line:#e6e9ed;
   --bg:#f4f6f8; --card:#ffffff; --nat:#3d6e9e; --natbg:#eef4f9; --droog:#b07a3c; --droogbg:#faf3e7;
-  --acc:#7a5ca8; --accbg:#f1ecf7; --ok:#2f7d4f; --okbg:#edf6f0; --over:#b0524b; --overbg:#fbf1ef; }
+  --acc:#7a5ca8; --accbg:#f1ecf7; --ok:#2f7d4f; --okbg:#edf6f0; --over:#b0524b; --overbg:#fbf1ef;
+  --trix:#a8483f; --trixbg:#fbf1ef; }
 *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
 html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;}
 .wrap{max-width:520px;margin:0 auto;padding:16px 14px 40px;}
-header{display:flex;align-items:baseline;justify-content:space-between;margin:6px 2px 14px;}
+header{display:flex;align-items:baseline;justify-content:space-between;margin:6px 2px 12px;}
 h1{font-size:26px;margin:0;font-weight:800;letter-spacing:-.3px;}
 .date{font-size:13px;color:var(--mut);text-transform:capitalize;text-align:right;line-height:1.3;}
 .card{background:var(--card);border-radius:20px;padding:18px;margin-bottom:14px;
@@ -69,15 +70,74 @@ h1{font-size:26px;margin:0;font-weight:800;letter-spacing:-.3px;}
 .setrow{display:flex;align-items:center;justify-content:space-between;padding:8px 2px;}
 .setrow input{width:90px;border:1.5px solid var(--line);border-radius:10px;padding:8px 10px;font-size:15px;text-align:right;background:#fbfcfd;color:var(--ink);}
 .tip{text-align:center;font-size:12px;color:var(--faint);margin-top:18px;line-height:1.5;}
+
+/* ---- schakelaar ---- */
+.seg{display:flex;background:#e7eaee;border-radius:13px;padding:3px;margin:0 0 14px;}
+.seg button{flex:1;border:none;background:none;padding:10px 0;font-size:15px;font-weight:700;color:var(--mut);
+  border-radius:10px;cursor:pointer;}
+.seg button.on{background:#fff;box-shadow:0 1px 2px rgba(20,24,31,.1);}
+.seg button.on.m{color:var(--nat);} .seg button.on.t{color:var(--trix);}
+.hide{display:none !important;}
+
+/* ---- Trixie ---- */
+.card.trix{border-top:4px solid var(--trix);}
+.trix .ctitle{color:var(--trix);}
+.trix .bar > i{background:var(--trix);}
+.kcalline{font-size:15px;color:var(--mut);font-weight:600;margin-left:10px;}
+.cmp{font-size:13px;color:var(--mut);margin-top:6px;}
+.cmp b{color:var(--ink);}
+.bowl-state{font-size:13px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:var(--trix);}
+.bowl-amt{font-size:22px;font-weight:800;margin:6px 0 2px;}
+.bowl-amt span{font-size:14px;font-weight:600;color:var(--mut);}
+.trow{display:flex;gap:8px;margin-top:10px;}
+.trow input{flex:1;border:1.5px solid var(--line);border-radius:12px;padding:12px 14px;font-size:17px;
+  background:#fbfcfd;color:var(--ink);min-width:0;}
+.trow button, .tbtn{border:none;border-radius:12px;padding:0 16px;font-size:16px;font-weight:700;color:#fff;
+  background:var(--trix);cursor:pointer;}
+.tbtn{width:100%;padding:14px;margin-top:8px;}
+.tbtn.ghost{background:#fff;color:var(--trix);border:1.5px solid #ecd2ce;}
+.tchips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
+.tchip{flex:1 1 15%;min-width:0;border:none;border-radius:12px;padding:13px 4px;font-size:16px;font-weight:700;
+  cursor:pointer;color:var(--trix);background:var(--trixbg);}
+.tchip:active{filter:brightness(.93);}
+.chk{display:flex;align-items:center;gap:8px;margin-top:12px;font-size:14px;color:var(--ink);}
+.chk input{width:20px;height:20px;accent-color:var(--trix);}
+.linkbtn{background:none;border:none;color:var(--faint);font-size:13px;text-decoration:underline;cursor:pointer;
+  padding:10px 0 0;display:block;}
+.drow{display:flex;align-items:center;gap:10px;padding:6px 0;}
+.drow .dl{width:58px;font-size:13px;color:var(--mut);text-transform:capitalize;}
+.drow .db{flex:1;height:12px;background:var(--line);border-radius:8px;position:relative;overflow:visible;}
+.drow .db i{display:block;height:100%;background:var(--trix);border-radius:8px;}
+.drow .db .tm{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--ink);opacity:.35;border-radius:1px;}
+.drow .dv{width:62px;text-align:right;font-weight:700;font-size:14px;}
+.drow .dv.na{color:var(--faint);font-weight:500;font-size:12px;}
+.hrow{display:flex;align-items:center;gap:8px;padding:9px 2px;border-top:1px solid var(--line);font-size:13px;}
+.hrow:first-child{border-top:none;}
+.hrow .hs{flex:1;color:var(--mut);}
+.hrow .hb{color:var(--mut);white-space:nowrap;}
+.hrow .hg{font-weight:700;font-size:15px;width:52px;text-align:right;white-space:nowrap;}
+.hrow.mika .hg{color:var(--faint);text-decoration:line-through;}
+.tag.mk{background:var(--natbg);color:var(--nat);}
+.hhead{display:flex;align-items:center;justify-content:space-between;margin:4px 2px 6px;}
+.hhead h2{margin:4px 0;}
+.mini{border:1.5px solid var(--line);background:#fff;border-radius:10px;padding:6px 10px;font-size:13px;
+  font-weight:700;color:var(--ink);cursor:pointer;margin-left:6px;}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
-    <h1>Mika</h1>
+    <h1 id="title">Mika</h1>
     <div class="date" id="date"></div>
   </header>
 
+  <div class="seg">
+    <button class="m" id="seg-mika">Mika</button>
+    <button class="t" id="seg-trixie">Trixie</button>
+  </div>
+
+  <!-- ===================== MIKA (ongewijzigd) ===================== -->
+  <div id="view-mika">
   <div class="card hero" id="hero">
     <div class="chead"><span class="ctitle">Dagdoel</span><span class="small" id="target-lbl"></span></div>
     <div class="big" id="rem-kcal">0<span class="u">kcal</span></div>
@@ -141,8 +201,45 @@ h1{font-size:26px;margin:0;font-weight:800;letter-spacing:-.3px;}
   </details>
 
   <div class="tip">Zet op je beginscherm: deel-icoon &rarr; "Zet op beginscherm".<br>De teller reset vanzelf bij een nieuwe dag.</div>
+  </div>
+
+  <!-- ===================== TRIXIE ===================== -->
+  <div id="view-trixie" class="hide">
+    <div class="card trix" id="t-hero">
+      <div class="chead"><span class="ctitle">Gemiddeld per dag</span><span class="small" id="t-window"></span></div>
+      <div><span class="big" id="t-avg">&ndash;</span><span class="kcalline" id="t-kcal"></span></div>
+      <div class="bar"><i id="t-bar"></i></div>
+      <div class="sub"><span id="t-pct"></span><span id="t-target"></span></div>
+      <div class="cmp" id="t-cmp"></div>
+      <div class="cmp" id="t-today"></div>
+    </div>
+
+    <div class="card trix" id="t-bowl"></div>
+
+    <div class="card trix">
+      <div class="chead"><span class="ctitle">Laatste 7 volledige dagen</span><span class="small">lijn = doel</span></div>
+      <div id="t-days"></div>
+    </div>
+
+    <div class="log">
+      <div class="hhead"><h2>Historiek</h2>
+        <span><button class="mini" id="t-csv">CSV</button><button class="mini" id="t-copy">Kopieer</button></span>
+      </div>
+      <div id="t-hist"></div>
+    </div>
+
+    <details class="settings">
+      <summary>Doel en waarden aanpassen</summary>
+      <div class="setrow"><span>Doel per dag (g)</span><input type="number" id="t-set-target"></div>
+      <div class="setrow"><span>kcal per gram droogvoer</span><input type="number" step="0.01" id="t-set-kcal"></div>
+      <div class="setrow small" style="color:var(--faint)">Standaard: 60 g &middot; 3,99 kcal/g. Sessies met "Mika erbij" tellen niet mee.</div>
+    </details>
+
+    <div class="tip">Zet het bakje met de ingedane hoeveelheid, weeg de rest wanneer je het wegneemt.<br>Trixie's historiek blijft bewaard op dit toestel. Exporteer af en toe als CSV als back-up.</div>
+  </div>
 </div>
 
+<!-- ===================== MIKA-code (ongewijzigd) ===================== -->
 <script>
 (function(){
   var KEY='mika_voeding_v1';
@@ -176,7 +273,6 @@ h1{font-size:26px;margin:0;font-weight:800;letter-spacing:-.3px;}
     var rem=tar-given;
     var over=rem<-0.5, done=rem<=0.5;
 
-    // hero (kcal)
     var hero=document.getElementById('hero');
     hero.classList.toggle('state-ok', done && !over);
     hero.classList.toggle('state-over', over);
@@ -190,7 +286,6 @@ h1{font-size:26px;margin:0;font-weight:800;letter-spacing:-.3px;}
     document.getElementById('pct-kcal').textContent=pct+'%';
     document.getElementById('bar-kcal').style.width=Math.min(100,pct)+'%';
 
-    // per type: grams still possible to fill the REMAINING kcal with that type only
     var roomNat = rem>0 ? Math.round(rem/kc.nat) : 0;
     var roomDroog = rem>0 ? Math.round(rem/kc.droog) : 0;
     setType('nat', t.nat, roomNat, done && !over);
@@ -263,6 +358,277 @@ h1{font-size:26px;margin:0;font-weight:800;letter-spacing:-.3px;}
   setInterval(function(){ if(state.date!==today()){ state=load(); save(); all(); } }, 60000);
 
   all();
+})();
+</script>
+
+<!-- ===================== TRIXIE-code ===================== -->
+<script>
+(function(){
+  var KEY='trixie_voeding_v1';
+  var WD=['zo','ma','di','wo','do','vr','za'];
+  function pad(n){return String(n).padStart(2,'0');}
+  function dk(d){return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());}
+  function hm(d){return pad(d.getHours())+':'+pad(d.getMinutes());}
+  function dayN(i){var d=new Date();return new Date(d.getFullYear(),d.getMonth(),d.getDate()-i);}
+  function r0(x){return Math.round(x);}
+
+  function load(){
+    var s=null;
+    try{ s=JSON.parse(localStorage.getItem(KEY)); }catch(e){}
+    if(!s||typeof s!=='object') s={};
+    if(!s.settings) s.settings={};
+    if(!(s.settings.target>0)) s.settings.target=60;
+    if(!(s.settings.kcal>0)) s.settings.kcal=3.99;
+    if(!Array.isArray(s.sessions)) s.sessions=[];
+    if(!s.open) s.open=null;
+    return s;
+  }
+  var st=load();
+  function save(){
+    try{ localStorage.setItem(KEY, JSON.stringify(st)); }
+    catch(e){ alert('Opslaan is niet gelukt. Exporteer je historiek als CSV.'); }
+  }
+
+  function refills(s){return (s.refills||[]).reduce(function(a,r){return a+r.g;},0);}
+  function eaten(s){return s.ing+refills(s)-s.rest;}
+
+  // verdeel gegeten gram over kalenderdagen, naar rato van de tijd dat het bakje stond
+  function alloc(s,map){
+    var g=eaten(s); if(!(g>0)) return;
+    var a=new Date(s.start).getTime(), b=new Date(s.end).getTime();
+    if(!(b>a)){ var k=dk(new Date(b)); map[k]=(map[k]||0)+g; return; }
+    var cur=a;
+    while(cur<b){
+      var d=new Date(cur);
+      var next=new Date(d.getFullYear(),d.getMonth(),d.getDate()+1).getTime();
+      var e=Math.min(next,b), k2=dk(d);
+      map[k2]=(map[k2]||0)+g*(e-cur)/(b-a);
+      cur=e;
+    }
+  }
+  function touched(aMs,bMs,set){
+    var d=new Date(aMs), end=dk(new Date(bMs)), k=dk(d), guard=0;
+    while(guard++<400){ set[k]=1; if(k===end) break; d=new Date(d.getFullYear(),d.getMonth(),d.getDate()+1); k=dk(d); }
+  }
+  function analyse(){
+    var m={}, skip={}, cov={}, first=null;
+    st.sessions.forEach(function(s){
+      var a=new Date(s.start).getTime();
+      if(first===null||a<first) first=a;
+      if(s.mika) touched(a,new Date(s.end).getTime(),skip);
+      else { alloc(s,m); touched(a,new Date(s.end).getTime(),cov); }
+    });
+    var openSkip={};
+    if(st.open){
+      var oa=new Date(st.open.start).getTime();
+      if(first===null||oa<first) first=oa;
+      touched(oa,Date.now(),openSkip);
+    }
+    return {m:m, skip:skip, cov:cov, openSkip:openSkip, first:(first===null?null:dk(new Date(first)))};
+  }
+  // gemiddelde over volledige dagen; de startdag (onvolledig) telt niet mee,
+  // dagen zonder afgesloten bakje (niet gelogd) ook niet
+  function win(A,from,to){
+    var sum=0,n=0;
+    for(var i=from;i<=to;i++){
+      var k=dk(dayN(i));
+      if(!A.first||k<=A.first||A.skip[k]||A.openSkip[k]||!A.cov[k]) continue;
+      sum+=A.m[k]||0; n++;
+    }
+    return {sum:sum,n:n,avg:n?sum/n:null};
+  }
+
+  function renderHero(A){
+    var tg=st.settings.target, kc=st.settings.kcal;
+    var w=win(A,1,7), p=win(A,8,14);
+    var avg=document.getElementById('t-avg');
+    if(w.avg===null){
+      avg.innerHTML='&ndash;';
+      document.getElementById('t-kcal').textContent='';
+      document.getElementById('t-bar').style.width='0%';
+      document.getElementById('t-pct').textContent='nog geen volledige dag gemeten';
+      document.getElementById('t-window').textContent='';
+    } else {
+      avg.innerHTML=r0(w.avg)+'<span class="u">g</span>';
+      document.getElementById('t-kcal').innerHTML='&asymp; '+r0(w.avg*kc)+' kcal';
+      var pct=r0(w.avg/tg*100);
+      document.getElementById('t-bar').style.width=Math.min(100,pct)+'%';
+      document.getElementById('t-pct').textContent=pct+'% van doel';
+      document.getElementById('t-window').textContent=w.n===7?'7 dagen':('op '+w.n+' dag'+(w.n>1?'en':''));
+    }
+    document.getElementById('t-target').textContent='doel '+tg+' g';
+    var cmp=document.getElementById('t-cmp');
+    if(w.avg!==null && p.avg!==null){
+      var diff=w.avg-p.avg, arr=Math.abs(diff)<1?'=':(diff>0?'&uarr;':'&darr;');
+      cmp.innerHTML='vorige 7 dagen: <b>'+r0(p.avg)+' g</b> '+arr;
+    } else cmp.innerHTML='';
+    var td=A.m[dk(new Date())]||0;
+    document.getElementById('t-today').innerHTML='vandaag tot nu (afgesloten bakjes): <b>'+r0(td)+' g</b>';
+  }
+
+  function renderBowl(){
+    var el=document.getElementById('t-bowl'), o=st.open, h='';
+    if(!o){
+      h+='<div class="chead"><span class="ctitle">Bakje zetten</span></div>'+
+         '<div class="lbl">Hoeveel doe je in het bakje?</div>'+
+         '<div class="tchips">'+[20,30,40,50,60].map(function(g){return '<button class="tchip" data-add="'+g+'">+'+g+'</button>';}).join('')+'</div>'+
+         '<div class="trow"><input type="number" inputmode="numeric" id="t-ing" placeholder="ingedaan (g)"><button id="t-start">Bakje zetten</button></div>';
+    } else {
+      var s=new Date(o.start), isToday=dk(s)===dk(new Date());
+      var rf=refills(o);
+      h+='<div class="chead"><span class="bowl-state">Bakje staat &middot; sinds '+(isToday?'':WD[s.getDay()]+' ')+hm(s)+'</span></div>'+
+         '<div class="bowl-amt">'+(o.ing+rf)+' g <span>in het bakje ('+o.ing+' ingedaan'+(rf?', +'+rf+' bijgevuld':'')+')</span></div>'+
+         '<div class="trow"><input type="number" inputmode="decimal" id="t-rest" placeholder="rest gewogen (g)"><button id="t-close">Wegen &amp; afsluiten</button></div>'+
+         '<div class="tchips">'+[10,20].map(function(g){return '<button class="tchip" data-refill="'+g+'">+'+g+' bijvullen</button>';}).join('')+'</div>'+
+         '<div class="trow"><input type="number" inputmode="numeric" id="t-refill" placeholder="ander bijvullen (g)"><button id="t-refill-btn">Bijvullen</button></div>'+
+         '<label class="chk"><input type="checkbox" id="t-mika"'+(o.mika?' checked':'')+'> Mika heeft ervan gegeten (telt niet mee)</label>'+
+         '<button class="linkbtn" id="t-cancel">Bakje annuleren (vergissing)</button>';
+    }
+    el.innerHTML=h;
+  }
+
+  function renderDays(A){
+    var tg=st.settings.target, vals=[], max=tg*1.3;
+    for(var i=7;i>=1;i--){
+      var d=dayN(i), k=dk(d), v=A.m[k]||0, st8='ok';
+      if(!A.first||k<=A.first) st8='none';
+      else if(A.skip[k]) st8='mika';
+      else if(A.openSkip[k]) st8='open';
+      else if(!A.cov[k]) st8='gap';
+      vals.push({d:d,v:v,s:st8}); if(st8==='ok'&&v>max) max=v;
+    }
+    var tmPos=Math.min(100,tg/max*100), h='';
+    vals.forEach(function(x){
+      var lab=WD[x.d.getDay()]+' '+x.d.getDate();
+      var w=x.s==='ok'?Math.min(100,x.v/max*100):0;
+      var txt=x.s==='ok'?(r0(x.v)+' g'):(x.s==='mika'?'Mika':(x.s==='open'?'loopt':(x.s==='gap'?'niet gelogd':'&ndash;')));
+      h+='<div class="drow"><span class="dl">'+lab+'</span>'+
+         '<span class="db"><i style="width:'+w+'%"></i><span class="tm" style="left:'+tmPos+'%"></span></span>'+
+         '<span class="dv'+(x.s==='ok'?'':' na')+'">'+txt+'</span></div>';
+    });
+    document.getElementById('t-days').innerHTML=h;
+  }
+
+  function span(s){
+    var a=new Date(s.start), b=new Date(s.end), same=dk(a)===dk(b);
+    return WD[a.getDay()]+' '+hm(a)+' &rarr; '+(same?'':WD[b.getDay()]+' ')+hm(b);
+  }
+  function renderHist(){
+    var list=st.sessions.slice().sort(function(x,y){return new Date(y.start)-new Date(x.start);});
+    if(!list.length){ document.getElementById('t-hist').innerHTML='<div class="empty">Nog geen afgesloten bakjes.</div>'; return; }
+    var h='';
+    list.slice(0,40).forEach(function(s){
+      h+='<div class="hrow'+(s.mika?' mika':'')+'"><span class="hs">'+span(s)+(s.mika?' <span class="tag mk">Mika erbij</span>':'')+'</span>'+
+         '<span class="hb">'+(s.ing+refills(s))+'&rarr;'+s.rest+'</span>'+
+         '<span class="hg">'+r0(eaten(s))+' g</span>'+
+         '<button class="del" data-id="'+s.id+'">&times;</button></div>';
+    });
+    if(list.length>40) h+='<div class="empty">'+(list.length-40)+' oudere sessies zitten in de CSV.</div>';
+    document.getElementById('t-hist').innerHTML=h;
+  }
+
+  function all(){
+    var A=analyse();
+    renderHero(A); renderBowl(); renderDays(A); renderHist();
+    document.getElementById('t-set-target').value=st.settings.target;
+    document.getElementById('t-set-kcal').value=st.settings.kcal;
+  }
+
+  // ---- acties ----
+  function num(id){ var v=parseFloat(String(document.getElementById(id).value).replace(',','.')); return isNaN(v)?null:v; }
+  document.getElementById('t-bowl').addEventListener('click',function(ev){
+    var t=ev.target;
+    if(t.dataset.add){ var inp=document.getElementById('t-ing'); var cur=parseFloat(inp.value)||0; inp.value=cur+parseInt(t.dataset.add,10); return; }
+    if(t.id==='t-start'){
+      var g=num('t-ing'); if(!(g>0&&g<1000)){ alert('Vul in hoeveel gram je in het bakje doet.'); return; }
+      st.open={id:'s'+Date.now(),start:new Date().toISOString(),ing:r0(g),refills:[],mika:false,type:'droog'};
+      save(); all(); return;
+    }
+    if(t.dataset.refill || t.id==='t-refill-btn'){
+      var rg=t.dataset.refill?parseInt(t.dataset.refill,10):num('t-refill');
+      if(!(rg>0&&rg<1000)) return;
+      st.open.refills.push({t:new Date().toISOString(),g:r0(rg)}); save(); all(); return;
+    }
+    if(t.id==='t-close'){
+      var rest=num('t-rest'), tot=st.open.ing+refills(st.open);
+      if(rest===null||rest<0){ alert('Vul in hoeveel gram er nog in het bakje ligt (0 als het leeg is).'); return; }
+      if(rest>tot){ alert('De rest ('+rest+' g) is meer dan wat erin zat ('+tot+' g).'); return; }
+      var s=st.open; s.end=new Date().toISOString(); s.rest=Math.round(rest*10)/10;
+      st.sessions.push(s); st.open=null; save(); all(); return;
+    }
+    if(t.id==='t-cancel'){
+      if(confirm('Dit bakje annuleren? Het wordt niet bewaard.')){ st.open=null; save(); all(); }
+      return;
+    }
+  });
+  document.getElementById('t-bowl').addEventListener('change',function(ev){
+    if(ev.target.id==='t-mika'&&st.open){ st.open.mika=ev.target.checked; save(); all(); }
+  });
+  document.getElementById('t-hist').addEventListener('click',function(ev){
+    var d=ev.target.closest('.del'); if(!d) return;
+    if(!confirm('Deze sessie verwijderen?')) return;
+    st.sessions=st.sessions.filter(function(s){return s.id!==d.dataset.id;}); save(); all();
+  });
+  document.getElementById('t-set-target').addEventListener('change',function(){
+    var v=parseFloat(this.value); if(v>0&&v<500){ st.settings.target=v; save(); all(); }
+  });
+  document.getElementById('t-set-kcal').addEventListener('change',function(){
+    var v=parseFloat(String(this.value).replace(',','.')); if(v>0&&v<10){ st.settings.kcal=v; save(); all(); }
+  });
+
+  // ---- CSV ----
+  function loc(iso){var d=new Date(iso);return dk(d)+' '+hm(d);}
+  function csv(){
+    var rows=[['start','einde','ingedaan_g','bijgevuld_g','rest_g','gegeten_g','mika_erbij','voertype']];
+    st.sessions.slice().sort(function(x,y){return new Date(x.start)-new Date(y.start);}).forEach(function(s){
+      rows.push([loc(s.start),loc(s.end),s.ing,refills(s),String(s.rest).replace('.',','),String(Math.round(eaten(s)*10)/10).replace('.',','),s.mika?'ja':'nee',s.type||'droog']);
+    });
+    return rows.map(function(r){return r.join(';');}).join('\n');
+  }
+  document.getElementById('t-csv').addEventListener('click',function(){
+    if(!st.sessions.length){ alert('Nog geen sessies om te exporteren.'); return; }
+    var name='trixie-historiek-'+dk(new Date())+'.csv';
+    var blob=new Blob(['﻿'+csv()],{type:'text/csv'});
+    try{
+      var f=new File([blob],name,{type:'text/csv'});
+      if(navigator.canShare&&navigator.canShare({files:[f]})){ navigator.share({files:[f],title:name}).catch(function(){}); return; }
+    }catch(e){}
+    var a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=name;
+    document.body.appendChild(a); a.click(); setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},1000);
+  });
+  document.getElementById('t-copy').addEventListener('click',function(){
+    if(!st.sessions.length){ alert('Nog geen sessies om te kopiëren.'); return; }
+    var txt=csv();
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(txt).then(function(){alert('CSV gekopieerd.');},function(){prompt('Kopieer de tekst:',txt);});
+    } else prompt('Kopieer de tekst:',txt);
+  });
+
+  setInterval(function(){ if(!document.getElementById('view-trixie').classList.contains('hide')) all(); }, 60000);
+  window.__trixieRender=all;
+  all();
+})();
+</script>
+
+<!-- ===================== schakelaar ===================== -->
+<script>
+(function(){
+  var VK='voeding_view';
+  function show(v){
+    var m=v!=='trixie';
+    document.getElementById('view-mika').classList.toggle('hide',!m);
+    document.getElementById('view-trixie').classList.toggle('hide',m);
+    document.getElementById('seg-mika').classList.toggle('on',m);
+    document.getElementById('seg-trixie').classList.toggle('on',!m);
+    document.getElementById('title').textContent=m?'Mika':'Trixie';
+    document.title=(m?'Mika':'Trixie')+' · voeding';
+    if(!m&&window.__trixieRender) window.__trixieRender();
+    try{ localStorage.setItem(VK, m?'mika':'trixie'); }catch(e){}
+  }
+  document.getElementById('seg-mika').addEventListener('click',function(){show('mika');});
+  document.getElementById('seg-trixie').addEventListener('click',function(){show('trixie');});
+  var v='mika'; try{ v=localStorage.getItem(VK)||'mika'; }catch(e){}
+  show(v);
 })();
 </script>
 </body>
