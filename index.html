@@ -42,7 +42,7 @@ h1{font-size:26px;margin:0;font-weight:800;letter-spacing:-.3px;}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;}
 .chip{flex:1 1 28%;min-width:0;border:none;border-radius:12px;padding:14px 4px;font-size:17px;font-weight:700;
   cursor:pointer;color:#fff;}
-.nat .chip{background:var(--nat);} .droog .chip{background:var(--droog);}
+.nat .chip{background:var(--nat);} .droog .chip{background:var(--droog);flex-basis:20%;}
 .chip:active{filter:brightness(.9);}
 .customrow{display:flex;gap:8px;margin-top:8px;}
 .customrow input{flex:1;border:1.5px solid var(--line);border-radius:12px;padding:12px 14px;font-size:17px;
@@ -122,6 +122,28 @@ h1{font-size:26px;margin:0;font-weight:800;letter-spacing:-.3px;}
 .hhead h2{margin:4px 0;}
 .mini{border:1.5px solid var(--line);background:#fff;border-radius:10px;padding:6px 10px;font-size:13px;
   font-weight:700;color:var(--ink);cursor:pointer;margin-left:6px;}
+/* ---- v2: tijdstip, bewerken, grafiek ---- */
+.tdt{display:block;width:100%;border:1.5px solid var(--line);border-radius:12px;padding:11px 12px;font-size:16px;
+  background:#fbfcfd;color:var(--ink);margin-top:6px;min-height:46px;-webkit-appearance:none;appearance:none;}
+.tnum{display:block;width:100%;border:1.5px solid var(--line);border-radius:12px;padding:11px 12px;font-size:16px;
+  background:#fbfcfd;color:var(--ink);margin-top:6px;min-width:0;}
+.lnk{background:none;border:none;color:var(--trix);font-size:13px;font-weight:700;cursor:pointer;padding:0;}
+.sblk{margin-top:12px;}
+.edit{border:none;background:none;color:var(--faint);font-size:16px;line-height:1;cursor:pointer;padding:2px 4px;}
+.hedit{background:var(--trixbg);border-radius:14px;padding:4px 12px 12px;margin:0 0 10px;}
+.hedit .lbl{margin-top:10px;}
+.two{display:flex;gap:8px;} .two > *{flex:1;min-width:0;}
+.rngs{display:flex;gap:6px;}
+.rng{border:1.5px solid var(--line);background:#fff;border-radius:10px;padding:5px 10px;font-size:13px;font-weight:700;
+  color:var(--mut);cursor:pointer;}
+.rng.on{color:var(--trix);border-color:#ecd2ce;background:var(--trixbg);}
+#t-chart{margin-top:8px;cursor:pointer;}
+#t-chart svg{display:block;width:100%;height:auto;}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--mut);margin-top:6px;}
+.legend i{display:inline-block;width:12px;margin-right:5px;vertical-align:middle;}
+.ccap{font-size:13px;color:var(--mut);min-height:18px;margin-top:8px;}
+.ccap b{color:var(--ink);}
+.ver{text-align:center;font-size:11px;color:var(--faint);margin-top:14px;}
 </style>
 </head>
 <body>
@@ -173,6 +195,7 @@ h1{font-size:26px;margin:0;font-weight:800;letter-spacing:-.3px;}
     <div class="lbl">kan je nog geven &middot; als de rest volledig droog is</div>
     <div class="given" id="given-droog">al gegeven: <b>0 g</b></div>
     <div class="chips">
+      <button class="chip" data-t="droog" data-g="5">+5</button>
       <button class="chip" data-t="droog" data-g="10">+10</button>
       <button class="chip" data-t="droog" data-g="15">+15</button>
       <button class="chip" data-t="droog" data-g="20">+20</button>
@@ -221,6 +244,18 @@ h1{font-size:26px;margin:0;font-weight:800;letter-spacing:-.3px;}
       <div id="t-days"></div>
     </div>
 
+    <div class="card trix">
+      <div class="chead"><span class="ctitle" id="t-ch-title">Laatste 30 dagen</span>
+        <span class="rngs"><button class="rng" data-days="30">30 d</button><button class="rng" data-days="90">90 d</button></span></div>
+      <div id="t-chart"></div>
+      <div class="legend">
+        <span><i style="height:10px;border-radius:2px;background:#a8483f"></i>gegeten</span>
+        <span><i style="height:0;border-top:2.5px solid #14181f"></i>7-daags gemiddelde</span>
+        <span><i style="height:0;border-top:2px dashed #9aa1aa"></i>doel</span>
+      </div>
+      <div class="ccap" id="t-ch-cap">Tik op een kolom voor details.</div>
+    </div>
+
     <div class="log">
       <div class="hhead"><h2>Historiek</h2>
         <span><button class="mini" id="t-csv">CSV</button><button class="mini" id="t-copy">Kopieer</button></span>
@@ -235,8 +270,9 @@ h1{font-size:26px;margin:0;font-weight:800;letter-spacing:-.3px;}
       <div class="setrow small" style="color:var(--faint)">Standaard: 60 g &middot; 3,99 kcal/g. Sessies met "Mika erbij" tellen niet mee.</div>
     </details>
 
-    <div class="tip">Zet het bakje met de ingedane hoeveelheid, weeg de rest wanneer je het wegneemt.<br>Trixie's historiek blijft bewaard op dit toestel. Exporteer af en toe als CSV als back-up.</div>
+    <div class="tip">Zet het bakje met de ingedane hoeveelheid, weeg de rest wanneer je het wegneemt.<br>Vergeten in te geven? Gebruik "Eerder gezet?" of &#9998; in de historiek.<br>Trixie's historiek blijft bewaard op dit toestel. Exporteer af en toe als CSV als back-up.</div>
   </div>
+  <div class="ver">versie 2026-11-07b</div>
 </div>
 
 <!-- ===================== MIKA-code (ongewijzigd) ===================== -->
@@ -371,6 +407,23 @@ h1{font-size:26px;margin:0;font-weight:800;letter-spacing:-.3px;}
   function hm(d){return pad(d.getHours())+':'+pad(d.getMinutes());}
   function dayN(i){var d=new Date();return new Date(d.getFullYear(),d.getMonth(),d.getDate()-i);}
   function r0(x){return Math.round(x);}
+  var MND=['jan','feb','mrt','apr','mei','jun','jul','aug','sep','okt','nov','dec'];
+  function toLI(d){return dk(d)+'T'+hm(d);}
+  function fromLI(v){
+    var m=/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/.exec(String(v||''));
+    if(!m) return null;
+    var d=new Date(+m[1],+m[2]-1,+m[3],+m[4],+m[5]);
+    return isNaN(d.getTime())?null:d;
+  }
+  function dm(d){return d.getDate()+'/'+(d.getMonth()+1);}
+  function fmtDT(d){
+    var k=dk(d);
+    if(k===dk(dayN(0))) return hm(d);
+    if(k===dk(dayN(1))) return 'gisteren '+hm(d);
+    if(k>=dk(dayN(6))) return WD[d.getDay()]+' '+hm(d);
+    return WD[d.getDay()]+' '+dm(d)+' '+hm(d);
+  }
+  var startAtOpen=false, osOpen=false, editId=null, chartSel=null, chartD=null;
 
   function load(){
     var s=null;
@@ -428,14 +481,35 @@ h1{font-size:26px;margin:0;font-weight:800;letter-spacing:-.3px;}
   }
   // gemiddelde over volledige dagen; de startdag (onvolledig) telt niet mee,
   // dagen zonder afgesloten bakje (niet gelogd) ook niet
+  function status(A,k){
+    if(!A.first||k<=A.first) return 'none';
+    if(A.skip[k]) return 'mika';
+    if(A.openSkip[k]) return 'open';
+    if(!A.cov[k]) return 'gap';
+    return 'ok';
+  }
   function win(A,from,to){
     var sum=0,n=0;
     for(var i=from;i<=to;i++){
       var k=dk(dayN(i));
-      if(!A.first||k<=A.first||A.skip[k]||A.openSkip[k]||!A.cov[k]) continue;
+      if(status(A,k)!=='ok') continue;
       sum+=A.m[k]||0; n++;
     }
     return {sum:sum,n:n,avg:n?sum/n:null};
+  }
+  // overlapt [a,b] met een ander bakje? (aansluitend = geen overlap)
+  function overlap(a,b,exceptId){
+    var hit=null;
+    st.sessions.forEach(function(s){
+      if(hit||s.id===exceptId) return;
+      if(+new Date(s.start)<b && +new Date(s.end)>a) hit=s;
+    });
+    if(!hit && st.open && st.open.id!==exceptId && +new Date(st.open.start)<b) hit=st.open;
+    return hit;
+  }
+  function okOverlap(a,b,exceptId){
+    var h=overlap(a,b,exceptId); if(!h) return true;
+    return confirm('Dit overlapt met het bakje van '+spanTxt(h)+'. Twee bakjes tegelijk telt dubbel. Toch bewaren?');
   }
 
   function renderHero(A){
@@ -472,17 +546,25 @@ h1{font-size:26px;margin:0;font-weight:800;letter-spacing:-.3px;}
       h+='<div class="chead"><span class="ctitle">Bakje zetten</span></div>'+
          '<div class="lbl">Hoeveel doe je in het bakje?</div>'+
          '<div class="tchips">'+[20,30,40,50,60].map(function(g){return '<button class="tchip" data-add="'+g+'">+'+g+'</button>';}).join('')+'</div>'+
-         '<div class="trow"><input type="number" inputmode="numeric" id="t-ing" placeholder="ingedaan (g)"><button id="t-start">Bakje zetten</button></div>';
+         '<div class="trow"><input type="number" inputmode="numeric" id="t-ing" placeholder="ingedaan (g)"><button id="t-start">Bakje zetten</button></div>'+
+         '<div class="sblk"><button class="lnk" id="t-startat-tog">Eerder gezet? Tijdstip aanpassen</button>'+
+         '<div class="hide" id="t-startat-blk"><div class="lbl" style="margin-top:8px">Gezet om</div>'+
+         '<input type="datetime-local" class="tdt" id="t-startat" value="'+toLI(new Date())+'"></div></div>';
+      startAtOpen=false;
     } else {
-      var s=new Date(o.start), isToday=dk(s)===dk(new Date());
+      var s=new Date(o.start);
       var rf=refills(o);
-      h+='<div class="chead"><span class="bowl-state">Bakje staat &middot; sinds '+(isToday?'':WD[s.getDay()]+' ')+hm(s)+'</span></div>'+
+      h+='<div class="chead"><span class="bowl-state">Bakje staat &middot; sinds '+fmtDT(s)+'</span><button class="lnk" id="t-os-tog">wijzig</button></div>'+
+         '<div class="hide" id="t-os-blk"><div class="lbl">Gezet om</div>'+
+         '<input type="datetime-local" class="tdt" id="t-os-at" value="'+toLI(s)+'">'+
+         '<button class="tbtn ghost" id="t-os-save">Starttijd bewaren</button></div>'+
          '<div class="bowl-amt">'+(o.ing+rf)+' g <span>in het bakje ('+o.ing+' ingedaan'+(rf?', +'+rf+' bijgevuld':'')+')</span></div>'+
          '<div class="trow"><input type="number" inputmode="decimal" id="t-rest" placeholder="rest gewogen (g)"><button id="t-close">Wegen &amp; afsluiten</button></div>'+
          '<div class="tchips">'+[10,20].map(function(g){return '<button class="tchip" data-refill="'+g+'">+'+g+' bijvullen</button>';}).join('')+'</div>'+
          '<div class="trow"><input type="number" inputmode="numeric" id="t-refill" placeholder="ander bijvullen (g)"><button id="t-refill-btn">Bijvullen</button></div>'+
          '<label class="chk"><input type="checkbox" id="t-mika"'+(o.mika?' checked':'')+'> Mika heeft ervan gegeten (telt niet mee)</label>'+
          '<button class="linkbtn" id="t-cancel">Bakje annuleren (vergissing)</button>';
+      osOpen=false;
     }
     el.innerHTML=h;
   }
@@ -490,11 +572,7 @@ h1{font-size:26px;margin:0;font-weight:800;letter-spacing:-.3px;}
   function renderDays(A){
     var tg=st.settings.target, vals=[], max=tg*1.3;
     for(var i=7;i>=1;i--){
-      var d=dayN(i), k=dk(d), v=A.m[k]||0, st8='ok';
-      if(!A.first||k<=A.first) st8='none';
-      else if(A.skip[k]) st8='mika';
-      else if(A.openSkip[k]) st8='open';
-      else if(!A.cov[k]) st8='gap';
+      var d=dayN(i), k=dk(d), v=A.m[k]||0, st8=status(A,k);
       vals.push({d:d,v:v,s:st8}); if(st8==='ok'&&v>max) max=v;
     }
     var tmPos=Math.min(100,tg/max*100), h='';
@@ -509,10 +587,11 @@ h1{font-size:26px;margin:0;font-weight:800;letter-spacing:-.3px;}
     document.getElementById('t-days').innerHTML=h;
   }
 
-  function span(s){
-    var a=new Date(s.start), b=new Date(s.end), same=dk(a)===dk(b);
-    return WD[a.getDay()]+' '+hm(a)+' &rarr; '+(same?'':WD[b.getDay()]+' ')+hm(b);
+  function spanTxt(s,arrow){
+    var a=new Date(s.start), b=s.end?new Date(s.end):new Date(), same=dk(a)===dk(b);
+    return WD[a.getDay()]+' '+dm(a)+' '+hm(a)+(arrow||' \u2192 ')+(same?'':WD[b.getDay()]+' ')+(s.end?hm(b):'nu');
   }
+  function span(s){ return spanTxt(s,' &rarr; '); }
   function renderHist(){
     var list=st.sessions.slice().sort(function(x,y){return new Date(y.start)-new Date(x.start);});
     if(!list.length){ document.getElementById('t-hist').innerHTML='<div class="empty">Nog geen afgesloten bakjes.</div>'; return; }
@@ -521,15 +600,89 @@ h1{font-size:26px;margin:0;font-weight:800;letter-spacing:-.3px;}
       h+='<div class="hrow'+(s.mika?' mika':'')+'"><span class="hs">'+span(s)+(s.mika?' <span class="tag mk">Mika erbij</span>':'')+'</span>'+
          '<span class="hb">'+(s.ing+refills(s))+'&rarr;'+s.rest+'</span>'+
          '<span class="hg">'+r0(eaten(s))+' g</span>'+
+         '<button class="edit" data-edit="'+s.id+'" aria-label="bewerken">&#9998;</button>'+
          '<button class="del" data-id="'+s.id+'">&times;</button></div>';
+      if(editId===s.id){
+        var rf=refills(s);
+        h+='<div class="hedit">'+
+           '<div class="lbl">Gezet om</div><input type="datetime-local" class="tdt" id="t-e-start" value="'+toLI(new Date(s.start))+'">'+
+           '<div class="lbl">Gewogen om</div><input type="datetime-local" class="tdt" id="t-e-end" value="'+toLI(new Date(s.end))+'">'+
+           '<div class="two"><div><div class="lbl">Ingedaan (g)</div><input type="number" inputmode="decimal" class="tnum" id="t-e-ing" value="'+s.ing+'"></div>'+
+           '<div><div class="lbl">Rest (g)</div><input type="number" inputmode="decimal" class="tnum" id="t-e-rest" value="'+s.rest+'"></div></div>'+
+           (rf?'<div class="lbl">Bijgevuld: '+rf+' g (blijft behouden)</div>':'')+
+           '<label class="chk"><input type="checkbox" id="t-e-mika"'+(s.mika?' checked':'')+'> Mika heeft ervan gegeten (telt niet mee)</label>'+
+           '<div class="two"><button class="tbtn" id="t-e-save">Bewaren</button><button class="tbtn ghost" id="t-e-cancel">Annuleren</button></div>'+
+           '</div>';
+      }
     });
     if(list.length>40) h+='<div class="empty">'+(list.length-40)+' oudere sessies zitten in de CSV.</div>';
     document.getElementById('t-hist').innerHTML=h;
   }
 
+  // ---- grafiek: kolommen per dag + voortschrijdend 7-daags gemiddelde ----
+  function chartData(A,N){
+    var out=[];
+    for(var i=N;i>=1;i--){
+      var d=dayN(i), k=dk(d), s=status(A,k), sum=0, n=0;
+      for(var j=0;j<7;j++){
+        var k2=dk(new Date(d.getFullYear(),d.getMonth(),d.getDate()-j));
+        if(status(A,k2)==='ok'){ sum+=A.m[k2]||0; n++; }
+      }
+      out.push({d:d,k:k,s:s,v:A.m[k]||0,ma:n>=3?sum/n:null,n:n});
+    }
+    return out;
+  }
+  var CW=340,CH=180,CL=28,CR=6,CT=10,CB=24;
+  function renderChart(A){
+    var N=st.settings.chartDays===90?90:30;
+    document.getElementById('t-ch-title').textContent='Laatste '+N+' dagen';
+    document.querySelectorAll('.rng').forEach(function(b){ b.classList.toggle('on', parseInt(b.dataset.days,10)===N); });
+    var D=chartData(A,N), tg=st.settings.target; chartD=D;
+    var pw=CW-CL-CR, ph=CH-CT-CB, mx=tg*1.25;
+    D.forEach(function(x){ if(x.s==='ok'&&x.v>mx) mx=x.v; if(x.ma!==null&&x.ma>mx) mx=x.ma; });
+    var stp=mx>120?40:20; mx=Math.ceil(mx/stp)*stp;
+    function y(v){return CT+ph-(v/mx)*ph;}
+    var bw=pw/N, gap=bw>6?bw*0.18:0.4, base=CT+ph;
+    var h='<svg viewBox="0 0 '+CW+' '+CH+'" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,sans-serif">';
+    for(var g=0; g<=mx; g+=stp){
+      h+='<line x1="'+CL+'" x2="'+(CW-CR)+'" y1="'+y(g).toFixed(1)+'" y2="'+y(g).toFixed(1)+'" stroke="#e6e9ed" stroke-width="1"/>'+
+         '<text x="'+(CL-5)+'" y="'+(y(g)+3).toFixed(1)+'" font-size="9" fill="#9aa1aa" text-anchor="end">'+g+'</text>';
+    }
+    D.forEach(function(x,i){
+      var x0=CL+i*bw+gap, w=Math.max(0.6,bw-2*gap), sel=(chartSel===i);
+      if(x.s==='ok'){
+        var yy=y(x.v);
+        h+='<rect x="'+x0.toFixed(2)+'" y="'+yy.toFixed(1)+'" width="'+w.toFixed(2)+'" height="'+Math.max(0,base-yy).toFixed(1)+'" rx="'+(bw>6?2:0)+'" fill="'+(sel?'#6e2a24':'#a8483f')+'"/>';
+      } else if(x.s!=='none'){
+        h+='<rect x="'+x0.toFixed(2)+'" y="'+(base-3)+'" width="'+w.toFixed(2)+'" height="3" fill="'+(x.s==='mika'?'#3d6e9e':'#c4c9cf')+'"'+(sel?'':' opacity=".7"')+'/>';
+      }
+      if(sel) h+='<rect x="'+(CL+i*bw).toFixed(2)+'" y="'+CT+'" width="'+bw.toFixed(2)+'" height="'+ph+'" fill="#14181f" opacity=".05"/>';
+      var lab=(N===30)?(x.d.getDay()===1?dm(x.d):''):(x.d.getDate()===1?MND[x.d.getMonth()]:'');
+      if(lab) h+='<text x="'+(CL+i*bw+bw/2).toFixed(1)+'" y="'+(CH-8)+'" font-size="9" fill="#5b636d" text-anchor="middle">'+lab+'</text>'+
+                 '<line x1="'+(CL+i*bw+bw/2).toFixed(1)+'" x2="'+(CL+i*bw+bw/2).toFixed(1)+'" y1="'+base+'" y2="'+(base+3)+'" stroke="#9aa1aa" stroke-width="1"/>';
+    });
+    h+='<line x1="'+CL+'" x2="'+(CW-CR)+'" y1="'+y(tg).toFixed(1)+'" y2="'+y(tg).toFixed(1)+'" stroke="#9aa1aa" stroke-width="1.5" stroke-dasharray="4 3"/>';
+    var path='', pen=false;
+    D.forEach(function(x,i){
+      if(x.ma===null){ pen=false; return; }
+      path+=(pen?'L':'M')+(CL+i*bw+bw/2).toFixed(1)+' '+y(x.ma).toFixed(1)+' '; pen=true;
+    });
+    if(path) h+='<path d="'+path+'" fill="none" stroke="#14181f" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>';
+    h+='</svg>';
+    document.getElementById('t-chart').innerHTML=h;
+    var cap=document.getElementById('t-ch-cap');
+    if(chartSel===null||!D[chartSel]){ cap.innerHTML=D.some(function(x){return x.s==='ok';})?'Tik op een kolom voor details.':'Nog geen volledige dagen om te tonen.'; return; }
+    var x=D[chartSel], t='<b>'+WD[x.d.getDay()]+' '+dm(x.d)+'</b> &middot; ';
+    t+= x.s==='ok'?('<b>'+r0(x.v)+' g</b> ('+r0(x.v*st.settings.kcal)+' kcal)'):
+        x.s==='mika'?'Mika erbij, telt niet mee':x.s==='gap'?'niet gelogd':x.s==='open'?'bakje loopt nog':'v&oacute;&oacute;r de eerste volledige meetdag';
+    if(x.ma!==null) t+=' &middot; 7-daags gem. '+r0(x.ma)+' g';
+    cap.innerHTML=t;
+  }
+  function tick(){ var A=analyse(); renderHero(A); renderDays(A); renderChart(A); }
+
   function all(){
     var A=analyse();
-    renderHero(A); renderBowl(); renderDays(A); renderHist();
+    renderHero(A); renderBowl(); renderDays(A); renderChart(A); renderHist();
     document.getElementById('t-set-target').value=st.settings.target;
     document.getElementById('t-set-kcal').value=st.settings.kcal;
   }
@@ -539,10 +692,33 @@ h1{font-size:26px;margin:0;font-weight:800;letter-spacing:-.3px;}
   document.getElementById('t-bowl').addEventListener('click',function(ev){
     var t=ev.target;
     if(t.dataset.add){ var inp=document.getElementById('t-ing'); var cur=parseFloat(inp.value)||0; inp.value=cur+parseInt(t.dataset.add,10); return; }
+    if(t.id==='t-startat-tog'){
+      startAtOpen=!startAtOpen;
+      document.getElementById('t-startat-blk').classList.toggle('hide',!startAtOpen);
+      t.textContent=startAtOpen?'Toch nu gezet':'Eerder gezet? Tijdstip aanpassen';
+      return;
+    }
     if(t.id==='t-start'){
       var g=num('t-ing'); if(!(g>0&&g<1000)){ alert('Vul in hoeveel gram je in het bakje doet.'); return; }
-      st.open={id:'s'+Date.now(),start:new Date().toISOString(),ing:r0(g),refills:[],mika:false,type:'droog'};
+      var at=new Date();
+      if(startAtOpen){
+        at=fromLI(document.getElementById('t-startat').value);
+        if(!at){ alert('Ongeldige datum of tijd.'); return; }
+        if(+at>Date.now()+60000){ alert('Dat tijdstip ligt in de toekomst.'); return; }
+        if(!okOverlap(+at,Date.now(),null)) return;
+      }
+      st.open={id:'s'+Date.now(),start:at.toISOString(),ing:r0(g),refills:[],mika:false,type:'droog'};
       save(); all(); return;
+    }
+    if(t.id==='t-os-tog'){
+      osOpen=!osOpen; document.getElementById('t-os-blk').classList.toggle('hide',!osOpen); return;
+    }
+    if(t.id==='t-os-save'){
+      var na=fromLI(document.getElementById('t-os-at').value);
+      if(!na){ alert('Ongeldige datum of tijd.'); return; }
+      if(+na>Date.now()+60000){ alert('Dat tijdstip ligt in de toekomst.'); return; }
+      if(!okOverlap(+na,Date.now(),st.open.id)) return;
+      st.open.start=na.toISOString(); save(); all(); return;
     }
     if(t.dataset.refill || t.id==='t-refill-btn'){
       var rg=t.dataset.refill?parseInt(t.dataset.refill,10):num('t-refill');
@@ -564,10 +740,43 @@ h1{font-size:26px;margin:0;font-weight:800;letter-spacing:-.3px;}
   document.getElementById('t-bowl').addEventListener('change',function(ev){
     if(ev.target.id==='t-mika'&&st.open){ st.open.mika=ev.target.checked; save(); all(); }
   });
+  function sessById(id){ for(var i=0;i<st.sessions.length;i++) if(st.sessions[i].id===id) return st.sessions[i]; return null; }
   document.getElementById('t-hist').addEventListener('click',function(ev){
-    var d=ev.target.closest('.del'); if(!d) return;
-    if(!confirm('Deze sessie verwijderen?')) return;
-    st.sessions=st.sessions.filter(function(s){return s.id!==d.dataset.id;}); save(); all();
+    var b=ev.target.closest('button'); if(!b) return;
+    if(b.dataset.edit){ editId=(editId===b.dataset.edit)?null:b.dataset.edit; renderHist(); return; }
+    if(b.id==='t-e-cancel'){ editId=null; renderHist(); return; }
+    if(b.id==='t-e-save'){
+      var s=sessById(editId); if(!s){ editId=null; renderHist(); return; }
+      var a=fromLI(document.getElementById('t-e-start').value), e=fromLI(document.getElementById('t-e-end').value);
+      if(!a||!e){ alert('Ongeldige datum of tijd.'); return; }
+      if(+e<=+a){ alert('"Gewogen om" moet na "gezet om" liggen.'); return; }
+      if(+e>Date.now()+60000){ alert('Dat tijdstip ligt in de toekomst.'); return; }
+      var ing=num('t-e-ing'), rest=num('t-e-rest');
+      if(!(ing>0&&ing<1000)){ alert('Vul in hoeveel gram er ingedaan werd.'); return; }
+      if(rest===null||rest<0){ alert('Vul de rest in (0 als het leeg was).'); return; }
+      if(rest>ing+refills(s)){ alert('De rest ('+rest+' g) is meer dan wat erin zat ('+(ing+refills(s))+' g).'); return; }
+      if(!okOverlap(+a,+e,s.id)) return;
+      s.start=a.toISOString(); s.end=e.toISOString(); s.ing=r0(ing); s.rest=Math.round(rest*10)/10;
+      s.mika=!!document.getElementById('t-e-mika').checked;
+      editId=null; save(); all(); return;
+    }
+    if(b.classList.contains('del')){
+      if(!confirm('Deze sessie verwijderen?')) return;
+      if(editId===b.dataset.id) editId=null;
+      st.sessions=st.sessions.filter(function(s){return s.id!==b.dataset.id;}); save(); all();
+    }
+  });
+  document.querySelectorAll('.rng').forEach(function(b){
+    b.addEventListener('click',function(){
+      st.settings.chartDays=parseInt(b.dataset.days,10); chartSel=null; save(); renderChart(analyse());
+    });
+  });
+  document.getElementById('t-chart').addEventListener('click',function(ev){
+    if(!chartD||!chartD.length) return;
+    var r=this.getBoundingClientRect(); if(!r.width) return;
+    var x=(ev.clientX-r.left)/r.width*CW, i=Math.floor((x-CL)/((CW-CL-CR)/chartD.length));
+    if(i<0||i>=chartD.length) return;
+    chartSel=(chartSel===i)?null:i; renderChart(analyse());
   });
   document.getElementById('t-set-target').addEventListener('change',function(){
     var v=parseFloat(this.value); if(v>0&&v<500){ st.settings.target=v; save(); all(); }
@@ -604,7 +813,7 @@ h1{font-size:26px;margin:0;font-weight:800;letter-spacing:-.3px;}
     } else prompt('Kopieer de tekst:',txt);
   });
 
-  setInterval(function(){ if(!document.getElementById('view-trixie').classList.contains('hide')) all(); }, 60000);
+  setInterval(function(){ if(!document.getElementById('view-trixie').classList.contains('hide')) tick(); }, 60000);
   window.__trixieRender=all;
   all();
 })();
